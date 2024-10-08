@@ -23,6 +23,8 @@ The bot captures the game screen, detects specific in-game UI elements, and perf
 4. Cast your fishing rod in the game and allow the bot to detect the needed keys (A, S, D). The calibration phase ensures the bot understands the positions of these keys.
 5. Once calibration is complete, the box will turn green, meaning the bot is ready to start fishing automatically.
 
+6. <video src="https://cdn.discordapp.com/attachments/1189710387009028156/1293361387841781875/2024-10-08_19-49-25_online-video-cutter.com.gif?ex=67071828&is=6705c6a8&hm=302ab6cb728611d287e139946a09c7c0f22828af85001395b7d5b33f0087d8c7&"></video>
+
 ## Usage
 - **Start Fishing:** After calibration, the bot will automatically handle the fishing for you. It detects the key that needs to be pressed and automates the fishing process.
 - **Pause/Resume:** You can press "R" at any time to toggle the bot on or off.
