@@ -63,12 +63,12 @@ isCalibrated = False
 stopExecution = threading.Event()
 
 keyTemplates = {
-    'a': cv2.imread(getResourcePath('a_template.png'), cv2.IMREAD_GRAYSCALE),
-    's': cv2.imread(getResourcePath('s_template.png'), cv2.IMREAD_GRAYSCALE),
-    'd': cv2.imread(getResourcePath('d_template.png'), cv2.IMREAD_GRAYSCALE),
-    'held_a': cv2.imread(getResourcePath('held_a_template.png'), cv2.IMREAD_GRAYSCALE),
-    'held_s': cv2.imread(getResourcePath('held_s_template.png'), cv2.IMREAD_GRAYSCALE),
-    'held_d': cv2.imread(getResourcePath('held_d_template.png'), cv2.IMREAD_GRAYSCALE)
+    'a': cv2.imread(getResourcePath('Templates/a_template.png'), cv2.IMREAD_GRAYSCALE),
+    's': cv2.imread(getResourcePath('Templates/s_template.png'), cv2.IMREAD_GRAYSCALE),
+    'd': cv2.imread(getResourcePath('Templates/d_template.png'), cv2.IMREAD_GRAYSCALE),
+    'held_a': cv2.imread(getResourcePath('Templates/held_a_template.png'), cv2.IMREAD_GRAYSCALE),
+    'held_s': cv2.imread(getResourcePath('Templates/held_s_template.png'), cv2.IMREAD_GRAYSCALE),
+    'held_d': cv2.imread(getResourcePath('Templates/held_d_template.png'), cv2.IMREAD_GRAYSCALE)
 }
 
 matchThreshold = 0.75
