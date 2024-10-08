@@ -57,3 +57,5 @@ The bot works in three main stages:
 
 ## Disclaimer:
 This bot is intended for educational purposes and personal use only. Use it responsibly and ensure that you adhere to Roblox's terms of service.
+
+Message me on discord for any assistance: zeenyween
