@@ -23,7 +23,7 @@ The bot captures the game screen, detects specific in-game UI elements, and perf
 4. Cast your fishing rod in the game and allow the bot to detect the needed keys (A, S, D). The calibration phase ensures the bot understands the positions of these keys.
 5. Once calibration is complete, the box will turn green, meaning the bot is ready to start fishing automatically.
 
-![](https://github.com/ZxnoVRC/Deepwoken-AI-Fishing-Bot/blob/main/tutorialgif_DontDownload.gif)
+![](https://github.com/user-attachments/assets/211cbcd7-3cd8-4c3b-aaa4-9093e72b430a)
 
 ## Usage
 - **Start Fishing:** After calibration, the bot will automatically handle the fishing for you. It detects the key that needs to be pressed and automates the fishing process.
