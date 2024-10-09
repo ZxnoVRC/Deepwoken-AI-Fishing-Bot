@@ -61,3 +61,5 @@ The bot works in three main stages:
 This bot is intended for educational purposes and personal use only. Use it responsibly and ensure that you adhere to Roblox's terms of service.
 
 Message me on discord for any assistance: zeenyween
+
+![](https://media.discordapp.net/attachments/1189710387009028156/1293483508454391868/image_18.png)
