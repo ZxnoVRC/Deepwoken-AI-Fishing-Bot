@@ -62,4 +62,4 @@ This bot is intended for educational purposes and personal use only. Use it resp
 
 Message me on discord for any assistance: zeenyween
 
-![](https://media.discordapp.net/attachments/1189710387009028156/1293483508454391868/image_18.png)
+![image (18)](https://github.com/user-attachments/assets/5da77292-b3ba-42bf-97bd-3b303a785836)
