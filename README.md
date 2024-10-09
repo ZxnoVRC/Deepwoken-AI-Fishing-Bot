@@ -63,3 +63,4 @@ This bot is intended for educational purposes and personal use only. Use it resp
 Message me on discord for any assistance: zeenyween
 
 ![image (18)](https://github.com/user-attachments/assets/5da77292-b3ba-42bf-97bd-3b303a785836)
+![image (19)](https://github.com/user-attachments/assets/c417f234-4c7b-4c63-a82b-0a8065300f24)
