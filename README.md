@@ -60,6 +60,6 @@ The bot works in three main stages:
 ## Disclaimer:
 This bot is intended for educational purposes and personal use only. Use it responsibly and ensure that you adhere to Roblox's terms of service.
 
-Message me on discord for any assistance: **teenypeenyzeeny
+Message me on discord for any assistance: **teenypeenyzeeny**
 
 ![image (18)](https://github.com/user-attachments/assets/5da77292-b3ba-42bf-97bd-3b303a785836)
