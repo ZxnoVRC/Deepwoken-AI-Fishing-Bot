@@ -78,7 +78,7 @@ def findRobloxWindow():
         if win32gui.IsWindowVisible(hwnd) and win32gui.IsWindowEnabled(hwnd):
             _, pid = win32process.GetWindowThreadProcessId(hwnd)
             process = psutil.Process(pid)
-            if process.name() in ["RobloxPlayerBeta.exe", "Roblox.exe"]:
+            if process.name() in ["RobloxPlayerBeta.exe", "Roblox.exe", "Windows10Universal.exe"]:
                 hwnds.append(hwnd)
         return True
 
@@ -170,7 +170,7 @@ def mouseClickLoop():
                 keyWasDetected = True
                 time.sleep(np.random.uniform(0.002, 0.008))
             else:
-                if currentTime - lastKeyPressTime > 0.5 and keyWasDetected:
+                if currentTime - lastKeyPressTime > 0.8 and keyWasDetected:
                     holdMouseForDuration()
                     keyWasDetected = False
         else:
@@ -243,6 +243,7 @@ def toggleScriptExecution(active):
         scriptSignals.updateOverlayColor.emit(QColor(255, 0, 0, 128))  # Red
     else:
         scriptSignals.updateOverlayColor.emit(QColor(0, 255, 0, 128))  # Green
+        holdMouseForDuration()
 
 def updateDetectionArea():
     global currentRegion
@@ -282,7 +283,7 @@ if __name__ == '__main__':
 
     timer = QTimer()
     timer.timeout.connect(updateDetectionArea)
-    timer.start(1000)
+    timer.start(200)
     
     toggleScriptExecution(False)
 
