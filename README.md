@@ -16,6 +16,8 @@ The bot captures the game screen, detects specific in-game UI elements, and perf
 - Make sure to have *Roblox* open.
 - Install dependencies such as `opencv-python`, `pyautogui`, `keyboard`, `numpy`, `psutil`, and `PyQt5`.
 
+- Watch: https://www.youtube.com/watch?v=4a-AFnwOWuo for a visual tutorial
+
 ### Steps:
 1. Open Roblox, then run the bot.
 2. A red box will appear on the screen indicating the bot is active but not yet calibrated.
