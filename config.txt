@@ -1,0 +1,2 @@
+[DEFAULT]
+Casting_Length = 0.1
