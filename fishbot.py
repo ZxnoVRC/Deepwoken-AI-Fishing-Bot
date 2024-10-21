@@ -25,6 +25,7 @@ class ScriptSignals(QObject):
     toggleScript = pyqtSignal(bool)
     updateOverlay = pyqtSignal(tuple)
     updateOverlayColor = pyqtSignal(QColor)
+    resizeOverlay = pyqtSignal(int, int)
 
 scriptSignals = ScriptSignals()
 
@@ -39,6 +40,14 @@ class OverlayDisplay(QWidget):
 
     def updatePositionAndSize(self, x, y, width, height):
         self.setGeometry(x, y, width, height)
+
+    def resizeOverlay(self, width_change, height_change):
+        current_geometry = self.geometry()
+        new_width = max(50, min(400, current_geometry.width() + width_change))
+        new_height = max(50, min(400, current_geometry.height() + height_change))
+        new_x = current_geometry.x() + (current_geometry.width() - new_width) // 2
+        new_y = current_geometry.y() + (current_geometry.height() - new_height) // 2
+        self.setGeometry(new_x, new_y, new_width, new_height)
 
     def toggleActiveColor(self, isActive):
         self.activeColor = QColor(0, 255, 0, 128) if isActive else QColor(255, 0, 0, 128)
@@ -73,7 +82,7 @@ keyTemplates = {
 
 matchThreshold = 0.75
 
-def findRobloxWindow():
+def findGameWindow():
     def enumWindowCallback(hwnd, hwnds):
         if win32gui.IsWindowVisible(hwnd) and win32gui.IsWindowEnabled(hwnd):
             _, pid = win32process.GetWindowThreadProcessId(hwnd)
@@ -86,7 +95,7 @@ def findRobloxWindow():
     win32gui.EnumWindows(enumWindowCallback, hwnds)
     return hwnds[0] if hwnds else None
 
-def calculateRegion(windowHandle):
+def calculateDetectionArea(windowHandle):
     if not windowHandle:
         return None
     left, top, right, bottom = win32gui.GetWindowRect(windowHandle)
@@ -97,7 +106,7 @@ def calculateRegion(windowHandle):
     topY = centerY + offsetY - (regionWidth - reducedHeight) // 2
     return (leftX, topY, regionWidth, regionWidth - reducedHeight)
 
-def detectCurrentKey():
+def detectKey():
     if not isCalibrated:
         return None
 
@@ -119,9 +128,9 @@ def detectCurrentKey():
     
     return None
 
-def calibrateKeyPositions():
+def calibrateKeys():
     print("Calibrating...")
-    scriptSignals.updateOverlayColor.emit(QColor(128, 0, 128, 128))  # Purple
+    scriptSignals.updateOverlayColor.emit(QColor(128, 0, 128, 128))
     
     while not all(position is not None for position in keyPositions.values()):
         screenshot = pyautogui.screenshot(region=currentRegion)
@@ -148,16 +157,16 @@ def calibrateKeyPositions():
     print("Calibration complete.")
     global isCalibrated
     isCalibrated = True
-    scriptSignals.updateOverlayColor.emit(QColor(0, 255, 0, 128))  # Green
+    scriptSignals.updateOverlayColor.emit(QColor(0, 255, 0, 128))
     return True
 
-def holdMouseForDuration():
+def holdMouse():
     if isScriptActive:
         pyautogui.mouseDown()
         time.sleep(1)
         pyautogui.mouseUp()
 
-def mouseClickLoop():
+def clickLoop():
     lastKeyPressTime = time.time()
     keyWasDetected = False
     while not stopExecution.is_set():
@@ -171,7 +180,7 @@ def mouseClickLoop():
                 time.sleep(np.random.uniform(0.002, 0.008))
             else:
                 if currentTime - lastKeyPressTime > 0.8 and keyWasDetected:
-                    holdMouseForDuration()
+                    holdMouse()
                     keyWasDetected = False
         else:
             if currentKeyHeld:
@@ -183,15 +192,15 @@ def keyDetectionLoop():
     while not stopExecution.is_set():
         if isScriptActive:
             if not isCalibrated:
-                if calibrateKeyPositions():
+                if calibrateKeys():
                     print("Calibration complete. Starting key detection.")
-                    toggleScriptExecution(True)
+                    toggleScript(True)
                 else:
                     print("Calibration failed. Retrying in 5 seconds.")
                     time.sleep(5)
                     continue
 
-            detectedKey = detectCurrentKey()
+            detectedKey = detectKey()
             keyQueue.put(detectedKey)
 
         time.sleep(0.01)
@@ -234,27 +243,56 @@ def manageKeyStates():
             print(f"Error in manageKeyStates: {e}")
             time.sleep(1)
 
-def toggleScriptExecution(active):
+def toggleScript(active):
     global isScriptActive
     isScriptActive = active
     if not isScriptActive:
         if currentKeyHeld:
             keyboard.release(currentKeyHeld)
-        scriptSignals.updateOverlayColor.emit(QColor(255, 0, 0, 128))  # Red
+        scriptSignals.updateOverlayColor.emit(QColor(255, 0, 0, 128))
     else:
-        scriptSignals.updateOverlayColor.emit(QColor(0, 255, 0, 128))  # Green
-        holdMouseForDuration()
+        scriptSignals.updateOverlayColor.emit(QColor(0, 255, 0, 128))
+        holdMouse()
 
 def updateDetectionArea():
     global currentRegion
-    windowHandle = findRobloxWindow()
+    windowHandle = findGameWindow()
     if windowHandle:
-        newRegion = calculateRegion(windowHandle)
-        if newRegion != currentRegion:
+        newRegion = calculateDetectionArea(windowHandle)
+        if currentRegion is None:
             currentRegion = newRegion
             scriptSignals.updateOverlay.emit(newRegion)
+        elif newRegion != currentRegion:
+            if abs(newRegion[0] - currentRegion[0]) > 20 or abs(newRegion[1] - currentRegion[1]) > 20:
+                new_x = newRegion[0] + (newRegion[2] - currentRegion[2]) // 2
+                new_y = newRegion[1] + (newRegion[3] - currentRegion[3]) // 2
+                currentRegion = (new_x, new_y, currentRegion[2], currentRegion[3])
+                scriptSignals.updateOverlay.emit(currentRegion)
     else:
         currentRegion = None
+
+def handleKeyPress(event):
+    global currentRegion
+    if event.name == 'r':
+        toggleScript(not isScriptActive)
+    elif event.name == '-':
+        if currentRegion:
+            new_width = max(50, currentRegion[2] - 10)
+            new_height = max(50, currentRegion[3] - 10)
+            new_x = currentRegion[0] + (currentRegion[2] - new_width) // 2
+            new_y = currentRegion[1] + (currentRegion[3] - new_height) // 2
+            currentRegion = (new_x, new_y, new_width, new_height)
+            scriptSignals.resizeOverlay.emit(-10, -10)
+            scriptSignals.updateOverlay.emit(currentRegion)
+    elif event.name == '=':
+        if currentRegion:
+            new_width = min(400, currentRegion[2] + 10)
+            new_height = min(400, currentRegion[3] + 10)
+            new_x = currentRegion[0] + (currentRegion[2] - new_width) // 2
+            new_y = currentRegion[1] + (currentRegion[3] - new_height) // 2
+            currentRegion = (new_x, new_y, new_width, new_height)
+            scriptSignals.resizeOverlay.emit(10, 10)
+            scriptSignals.updateOverlay.emit(currentRegion)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
@@ -265,8 +303,12 @@ if __name__ == '__main__':
     def handleColorUpdate(color):
         overlay.setColor(color)
     
+    def handleOverlayResize(width_change, height_change):
+        overlay.resizeOverlay(width_change, height_change)
+    
     scriptSignals.updateOverlay.connect(handleOverlayUpdate)
     scriptSignals.updateOverlayColor.connect(handleColorUpdate)
+    scriptSignals.resizeOverlay.connect(handleOverlayResize)
     
     overlay = OverlayDisplay(0, 0, 200, 200)
     
@@ -278,18 +320,14 @@ if __name__ == '__main__':
     keyDetectionThread = threading.Thread(target=keyDetectionLoop, daemon=True)
     keyDetectionThread.start()
 
-    clickLoopThread = threading.Thread(target=mouseClickLoop, daemon=True)
+    clickLoopThread = threading.Thread(target=clickLoop, daemon=True)
     clickLoopThread.start()
 
     timer = QTimer()
     timer.timeout.connect(updateDetectionArea)
     timer.start(200)
     
-    toggleScriptExecution(False)
-
-    def handleKeyPress(event):
-        if event.name == 'r':
-            toggleScriptExecution(not isScriptActive)
+    toggleScript(False)
 
     keyboard.on_press(handleKeyPress)
 
