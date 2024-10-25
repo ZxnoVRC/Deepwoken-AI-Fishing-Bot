@@ -8,8 +8,10 @@ The bot captures the game screen, detects specific in-game UI elements, and perf
 ## Features
 - **Roblox Detection:** Detects the open Roblox window.
 - **Key Detection:** Uses image templates to detect which key (A, S, or D) the player needs to press.
-- **Automation:** Automatically clicks and holds the necessary key to fish.
+- **Automation:** Automatically clicks and holds the necessary key to fish
 - **Overlay System:** A colored box that provides visual feedback on the bot's current state.
+
+- **If the box doesnt fit please use +,= and - to change the size!!!**
 
 ## Setup
 ### Prerequisites:
