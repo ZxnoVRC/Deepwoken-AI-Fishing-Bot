@@ -11,13 +11,11 @@ The bot captures the game screen, detects specific in-game UI elements, and perf
 - **Automation:** Automatically clicks and holds the necessary key to fish
 - **Overlay System:** A colored box that provides visual feedback on the bot's current state.
 
-- **If the box doesnt fit please use +,= and - to change the size!!!**
-
 ## Setup
 ### Prerequisites:
 - Make sure to have *Roblox* open.
 - Install dependencies such as `opencv-python`, `pyautogui`, `keyboard`, `numpy`, `psutil`, and `PyQt5`.
-
+- **If the box doesnt fit please use +,= and - to change the size!!!**
 - Watch: https://www.youtube.com/watch?v=4a-AFnwOWuo for a visual tutorial
 
 ### Steps:
