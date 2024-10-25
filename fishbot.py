@@ -13,6 +13,7 @@ from PyQt5.QtGui import QPainter, QColor, QPen
 from queue import Queue, Empty as QueueEmpty
 import os
 import sys
+import configparser
 
 def getResourcePath(relativePath):
     try:
@@ -162,8 +163,9 @@ def calibrateKeys():
 
 def holdMouse():
     if isScriptActive:
+        casting_length = readConfig()
         pyautogui.mouseDown()
-        time.sleep(1)
+        time.sleep(casting_length)
         pyautogui.mouseUp()
 
 def clickLoop():
@@ -293,16 +295,15 @@ def handleKeyPress(event):
             currentRegion = (new_x, new_y, new_width, new_height)
             scriptSignals.resizeOverlay.emit(10, 10)
             scriptSignals.updateOverlay.emit(currentRegion)
-            
-    elif event.name == '+':
-        if currentRegion:
-            new_width = min(400, currentRegion[2] + 10)
-            new_height = min(400, currentRegion[3] + 10)
-            new_x = currentRegion[0] + (currentRegion[2] - new_width) // 2
-            new_y = currentRegion[1] + (currentRegion[3] - new_height) // 2
-            currentRegion = (new_x, new_y, new_width, new_height)
-            scriptSignals.resizeOverlay.emit(10, 10)
-            scriptSignals.updateOverlay.emit(currentRegion)
+
+def readConfig():
+    config = configparser.ConfigParser()
+    config.read('config.txt')
+    try:
+        return float(config.get('DEFAULT', 'Casting_Length', fallback='1'))
+    except ValueError:
+        print("Invalid Casting_Length in config.txt. Using default value of 1.")
+        return 1
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
@@ -323,6 +324,8 @@ if __name__ == '__main__':
     overlay = OverlayDisplay(0, 0, 200, 200)
     
     updateDetectionArea()
+
+    casting_length = readConfig()
 
     keyStateManagerThread = threading.Thread(target=manageKeyStates, daemon=True)
     keyStateManagerThread.start()
