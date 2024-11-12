@@ -13,6 +13,7 @@ The bot captures the game screen, detects specific in-game UI elements, and perf
 
 ## Setup
 ### Prerequisites:
+- ONLY WINDOWS 10 TESTED
 - Make sure to have *Roblox* open.
 - Install dependencies such as `opencv-python`, `pyautogui`, `keyboard`, `numpy`, `psutil`, and `PyQt5`.
 - **If the box doesnt fit please use +,= and - to change the size!!!**
