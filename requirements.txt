@@ -2,6 +2,7 @@ opencv-python
 pyautogui
 keyboard
 numpy
+pywin32
 PyQt5
 psutil
-pywin32
+pygame

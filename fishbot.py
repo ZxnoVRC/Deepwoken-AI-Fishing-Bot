@@ -14,6 +14,7 @@ from queue import Queue, Empty as QueueEmpty
 import os
 import sys
 import configparser
+import json
 
 def getResourcePath(relativePath):
     try:
@@ -130,6 +131,10 @@ def detectKey():
     return None
 
 def calibrateKeys():
+    global isCalibrated
+    if loadPositions():
+        return True
+    
     print("Calibrating...")
     scriptSignals.updateOverlayColor.emit(QColor(128, 0, 128, 128))
     
@@ -156,9 +161,9 @@ def calibrateKeys():
         time.sleep(0.5)
 
     print("Calibration complete.")
-    global isCalibrated
     isCalibrated = True
     scriptSignals.updateOverlayColor.emit(QColor(0, 255, 0, 128))
+    savePositions()
     return True
 
 def holdMouse():
@@ -249,11 +254,16 @@ def toggleScript(active):
     global isScriptActive
     isScriptActive = active
     if not isScriptActive:
-        if currentKeyHeld:
-            keyboard.release(currentKeyHeld)
-        scriptSignals.updateOverlayColor.emit(QColor(255, 0, 0, 128))
+
+        keyboard.release('a')
+        keyboard.release('s')
+        keyboard.release('d')
+        scriptSignals.updateOverlayColor.emit(QColor(255, 0, 0, 35))
     else:
-        scriptSignals.updateOverlayColor.emit(QColor(0, 255, 0, 128))
+        keyboard.release('a')
+        keyboard.release('s')
+        keyboard.release('d')
+        scriptSignals.updateOverlayColor.emit(QColor(0, 255, 0, 50))
         holdMouse()
 
 def updateDetectionArea():
@@ -274,7 +284,7 @@ def updateDetectionArea():
         currentRegion = None
 
 def handleKeyPress(event):
-    global currentRegion
+    global currentRegion, keyPositions, isCalibrated
     if event.name == 'r':
         toggleScript(not isScriptActive)
     elif event.name == '-':
@@ -296,6 +306,10 @@ def handleKeyPress(event):
             scriptSignals.resizeOverlay.emit(10, 10)
             scriptSignals.updateOverlay.emit(currentRegion)
 
+    if event.name == ']':
+        resetPositions()
+        isCalibrated = False
+
 def readConfig():
     config = configparser.ConfigParser()
     config.read('config.txt')
@@ -305,6 +319,30 @@ def readConfig():
         print("Invalid Casting_Length in config.txt. Using default value of 1.")
         return 1
 
+def savePositions():
+    with open('key_positions.json', 'w') as f:
+        json.dump(keyPositions, f)
+    print("Positions saved to key_positions.json")
+
+def loadPositions():
+    global keyPositions, isCalibrated
+    try:
+        with open('key_positions.json', 'r') as f:
+            keyPositions = json.load(f)
+        isCalibrated = all(position is not None for position in keyPositions.values())
+        print("Positions loaded from key_positions.json")
+        return True
+    except FileNotFoundError:
+        print("No saved positions found. Calibration required.")
+        return False
+
+def resetPositions():
+    global keyPositions, isCalibrated
+    keyPositions = {'a': None, 's': None, 'd': None}
+    isCalibrated = False
+    os.remove("key_positions.json")
+    print("Positions reset")
+    
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     
@@ -345,3 +383,4 @@ if __name__ == '__main__':
     keyboard.on_press(handleKeyPress)
 
     sys.exit(app.exec_())
+

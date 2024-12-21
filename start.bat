@@ -1,3 +1,3 @@
 @echo off
-py fishbot.py
+python fishbot.py
 pause
