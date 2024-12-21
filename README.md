@@ -54,8 +54,8 @@ The bot captures the game screen, detects specific in-game UI elements, and perf
 - **Green Box:** Bot is active and ready to fish.
 
 ## Important Notes:
-- Calibration is required every time the program starts to ensure the bot can detect the fishing prompts in the game.
-- The bot will only work correctly when the correct in-game screen elements are visible and can be captured by the bot.
+- Calibration may be required every time the program starts to ensure the bot can detect the fishing prompts in the game.
+- The bot will only work correctly when the correct in-game screen elements are visible and can be captured by the bot so please dont cover the fishing ui ingame.
 
 ## How the Code Works
 The bot works in three main stages:
