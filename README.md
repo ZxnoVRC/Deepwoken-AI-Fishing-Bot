@@ -11,6 +11,12 @@ The bot captures the game screen, detects specific in-game UI elements, and perf
 - **Automation:** Automatically clicks and holds the necessary key to fish
 - **Overlay System:** A colored box that provides visual feedback on the bot's current state.
 
+- ## Most Recent Update
+- added position saving so you dont need to calibrate everytime you open the program
+- added new keybind "]" to reset the saved position and calibrate again
+- made the boxes transparent to look better
+- fixed some bugs regarding player walking off from keys not being released
+
 ## Setup
 ### Prerequisites:
 - ONLY WINDOWS 10 TESTED
