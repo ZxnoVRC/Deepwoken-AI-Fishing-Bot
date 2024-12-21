@@ -30,7 +30,7 @@ The bot captures the game screen, detects specific in-game UI elements, and perf
 - **If the box doesnt fit please use +,= and - to change the size!!!**
 - **If the box doesnt fit please use +,= and - to change the size!!!**
 - 
-- Watch: https://www.youtube.com/watch?v=4a-AFnwOWuo for a visual tutorial
+- ~~Watch: https://www.youtube.com/watch?v=4a-AFnwOWuo for a visual tutorial~~
 
 ### Steps:
 1. Open Roblox, then run the bot.
