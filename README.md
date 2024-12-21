@@ -16,7 +16,11 @@ The bot captures the game screen, detects specific in-game UI elements, and perf
 - ONLY WINDOWS 10 TESTED
 - Make sure to have *Roblox* open.
 - Install dependencies such as `opencv-python`, `pyautogui`, `keyboard`, `numpy`, `psutil`, and `PyQt5`.
+- 
 - **If the box doesnt fit please use +,= and - to change the size!!!**
+- **If the box doesnt fit please use +,= and - to change the size!!!**
+- **If the box doesnt fit please use +,= and - to change the size!!!**
+- 
 - Watch: https://www.youtube.com/watch?v=4a-AFnwOWuo for a visual tutorial
 
 ### Steps:
@@ -31,6 +35,7 @@ The bot captures the game screen, detects specific in-game UI elements, and perf
 ## Usage
 - **Start Fishing:** After calibration, the bot will automatically handle the fishing for you. It detects the key that needs to be pressed and automates the fishing process.
 - **Pause/Resume:** You can press "R" at any time to toggle the bot on or off.
+- **Reset Saved Positions:** You can press "]" to reset the saved positions file and re-calibrate. -- NEW!!!!!!!
 - **Stop:** Closing the program will deactivate the bot.
 
 ## Visual Cues:
