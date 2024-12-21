@@ -3,7 +3,8 @@
 This bot automatically fishes in the Roblox game *Deepwoken* using a combination of image detection and pixel color detection.
 
 I made this bot as a personal project and never thought i would be releasing it, so I will respond for support but very rarely because i dont even play deepwoken and dont really care about this project anymore. 
-**AS OF DECEMBER 21ST OF 2024 THE BOT IS WORKING**
+
+- **AS OF DECEMBER 21ST OF 2024 THE BOT IS WORKING**
 
 ## How It Works
 The bot captures the game screen, detects specific in-game UI elements, and performs automated actions (like pressing keys) based on what it sees. It helps to automate the fishing process in the game by identifying the necessary keypresses (A, S, D) during fishing.
